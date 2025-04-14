@@ -1,5 +1,5 @@
 import customtkinter as ctk
-
+import requests
 
 # configs iniciais
 GUI = ctk.CTk()
@@ -9,17 +9,17 @@ GUI.geometry("480x220")
 GUI.maxsize(480, 220)
 GUI.minsize(480, 220)
 
+# API
+url = "https://api.exchangerate.host/list?access_key=YOUR_KEY"
+response = requests.get(url)
+data = response.json()
+currencies = data['currencies']
+
 # Funções/Dicionarios&Listas
 def convert(event=None):
     valor_resultado.set(f'{valor1.get()}')
 
-
-moedas = [
-    "USD", "EUR", "BRL", "GBP", "JPY", "CNY", "AUD", "CAD", "CHF", "ARS",
-    "MXN", "CLP", "SEK", "NOK", "RUB", "INR", "ZAR", "KRW", "TRY", "ILS",
-    "AED", "HKD", "SGD", "PLN", "DKK"
-] # pegar na API
-
+moedas = list(currencies.keys())
 
 # Front-end direto na GUI
 text1 = ctk.CTkLabel(GUI, text="Escolha um valor!")
@@ -27,11 +27,11 @@ text1.grid(row=0, column=0, columnspan=3, pady=10)
 
 combo1 = ctk.CTkComboBox(GUI, values=moedas)
 combo1.grid(row=1, column=0, padx=10, pady=10)                    
-combo1.set(moedas[0])
+combo1.set('BRL')
 
 combo2 = ctk.CTkComboBox(GUI, values=moedas)
 combo2.grid(row=1, column=2, padx=10, pady=10)               
-combo2.set(moedas[2])
+combo2.set('USD')
 
 valor1 = ctk.CTkEntry(GUI, placeholder_text="Valor de entrada")
 valor1.grid(row=2, column=0, padx=10, pady=10)               
