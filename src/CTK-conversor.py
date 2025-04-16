@@ -1,5 +1,9 @@
+import os
 import customtkinter as ctk
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # configs iniciais
 GUI = ctk.CTk()
@@ -10,7 +14,8 @@ GUI.maxsize(480, 220)
 GUI.minsize(480, 220)
 
 # API
-url = "https://api.exchangerate.host/list?access_key=YOUR_KEY"
+key = os.getenv('API_KEY')
+url = f"https://api.exchangerate.host/list?access_key={key}"
 response = requests.get(url)
 data = response.json()
 currencies = data['currencies']
