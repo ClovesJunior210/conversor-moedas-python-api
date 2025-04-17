@@ -5,9 +5,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+API_KEY = os.getenv('API_KEY')  
+
 def obter_moedas():
-    key = os.getenv('API_KEY')
-    url = f"https://api.exchangerate.host/list?access_key={key}"
+    url = f"https://api.exchangerate.host/list?access_key={API_KEY}"
     response = requests.get(url)
     data = response.json()
     return list(data['currencies'].keys())
@@ -15,11 +16,17 @@ def obter_moedas():
 def interface_grafica():
 
     def convert(event=None):
-        from_currency = combo1
-        to_currency = combo2
-        amount = float(valor1.get()) 
+        from_currency = combo_moeda_origem.get()
+        to_currency = combo_moeda_destino.get()
+        amount = float(v_from.get()) 
 
-        url_convert = f"https://api.exchangerate.host/convert?from={from_currency}&to={to_currency}&amount={amount}"
+        url_convert = f"https://api.exchangerate.host/convert?from={from_currency}&to={to_currency}&amount={amount}&access_key={API_KEY}"
+        response_convert = requests.get(url_convert)
+        data_convert = response_convert.json()
+        print(f'data convert: {data_convert}')
+
+        value_result = round(data_convert["result"], 2)
+        valor_resultado.set(f'{value_result}')
 
     # configs iniciais
     GUI = ctk.CTk()
@@ -32,30 +39,29 @@ def interface_grafica():
     moedas = obter_moedas()
 
     # Front-End
-    text1 = ctk.CTkLabel(GUI, text="Escolha um valor!")
-    text1.grid(row=0, column=0, columnspan=3, pady=10)                     
+    label1 = ctk.CTkLabel(GUI, text="Escolha um valor!")
+    label1.grid(row=0, column=0, columnspan=3, pady=10)                     
 
-    combo1 = ctk.CTkComboBox(GUI, values=moedas)
-    combo1.grid(row=1, column=0, padx=10, pady=10)                    
-    combo1.set('BRL')
+    combo_moeda_origem = ctk.CTkComboBox(GUI, values=moedas)
+    combo_moeda_origem.grid(row=1, column=0, padx=10, pady=10)                    
+    combo_moeda_origem.set('BRL')
 
-    combo2 = ctk.CTkComboBox(GUI, values=moedas)
-    combo2.grid(row=1, column=2, padx=10, pady=10)               
-    combo2.set('USD')
+    combo_moeda_destino = ctk.CTkComboBox(GUI, values=moedas)
+    combo_moeda_destino.grid(row=1, column=2, padx=10, pady=10)               
+    combo_moeda_destino.set('USD')
 
-    valor1 = ctk.CTkEntry(GUI, placeholder_text="Valor de entrada")
-    valor1.grid(row=2, column=0, padx=10, pady=10)               
-    valor1.bind("<Return>", convert)
+    v_from = ctk.CTkEntry(GUI, placeholder_text="Valor de entrada")
+    v_from.grid(row=2, column=0, padx=10, pady=10)               
+    v_from.bind("<Return>", convert)
 
     valor_resultado = ctk.StringVar()
-    valor2 = ctk.CTkEntry(GUI, textvariable=valor_resultado, state="disabled", placeholder_text="Resultado")
-    valor2.grid(row=2, column=2, padx=10, pady=10)
+    v_to = ctk.CTkEntry(GUI, textvariable=valor_resultado, state="disabled", placeholder_text="Resultado")
+    v_to.grid(row=2, column=2, padx=10, pady=10)
 
     botao = ctk.CTkButton(GUI, text="Converter", command=convert)
     botao.grid(row=3, column=1, pady=20)
 
     GUI.mainloop()
-
 
 # chama o GUI
 interface_grafica()
