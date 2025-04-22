@@ -14,13 +14,15 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 def obter_moedas():
     """Função que obtém a lista de moedas disponíveis na API."""
+
     url = f"https://api.exchangerate.host/list?access_key={API_KEY}"
     response = requests.get(url)
     data = response.json()
     return list(data['currencies'].keys())
 
-def value_verify(v_from, label1, combo_moeda_origem, combo_moeda_destino):
+def value_verify(v_from, label1, combo_moeda_destino, combo_moeda_origem):
     """Função que verifica a validade do valor inserido."""
+
     # Verfica se o valor possui algo
     if not v_from.get():
         logging.warning('From= Null')
@@ -30,6 +32,7 @@ def value_verify(v_from, label1, combo_moeda_origem, combo_moeda_destino):
     # verifica se o user digitou uma moeda que existe na lista
     elif combo_moeda_origem.get() not in obter_moedas() or combo_moeda_destino.get() not in obter_moedas():
         logging.warning('Uma das moedas selecionadas não está disponível')
+        label1.configure(text="Uma das moedas selecionadas não está disponível!")
         return False
 
     # Substitui vírgula por ponto
@@ -52,8 +55,9 @@ def value_verify(v_from, label1, combo_moeda_origem, combo_moeda_destino):
 
 def convert(v_from, label1, combo_moeda_origem, combo_moeda_destino, result_value):
     """Função para realizar a conversão de moedas."""
+
     if not value_verify(v_from, label1, combo_moeda_destino, combo_moeda_origem):
-        return
+        return  
     
     from_currency = combo_moeda_origem.get()
     to_currency = combo_moeda_destino.get()
@@ -72,9 +76,10 @@ def convert(v_from, label1, combo_moeda_origem, combo_moeda_destino, result_valu
 
 def interface_grafica():
     """Função que inicializa a interface gráfica."""
+
     # Configuração da GUI
     GUI = ctk.CTk()
-    GUI.title("Conversor de moedas")
+    GUI.title("Conversor de Moedas - v1.0")
     GUI.configure(fg_color="#1e1e1e")
     GUI.geometry("480x220")
     GUI.maxsize(480, 220)
@@ -108,30 +113,43 @@ def interface_grafica():
     GUI.mainloop()
     
 def gui_erro():
+    """Função que inicializa a interface gráfica de erro."""
+
     Erro = ctk.CTk()
-    Erro.title("Conversor de moedas")
+    Erro.title("Err")
     Erro.configure(fg_color="#1e1e1e")
     Erro.geometry("480x220")
-    Erro.maxsize(480, 220)
-    Erro.minsize(480, 220)
+    Erro.resizable(False, False)
 
-    label_erro = ctk.CTkLabel(Erro, text="API fora do ar!")
-    label_erro.grid(row=1, column=1, pady=20)
+    Erro.grid_columnconfigure(0, weight=1)
+    Erro.grid_columnconfigure(1, weight=1)
+    Erro.grid_columnconfigure(2, weight=1)
+    Erro.grid_rowconfigure(0, weight=1)
+    Erro.grid_rowconfigure(1, weight=1)
+    Erro.grid_rowconfigure(2, weight=1)
+    Erro.grid_rowconfigure(3, weight=1)
 
-    sub_label_erro = ctk.CTkLabel(Erro, text="API fora do ar!")
-    sub_label_erro.grid(row=2, column=1, pady=10)
+    label_erro = ctk.CTkLabel(Erro, text="API fora do ar!", text_color="white", font=("Arial", 16))
+    label_erro.grid(row=1, column=1, pady=10, sticky="n")
 
-# Verifica o status da API ao carregar
+    sub_label_erro = ctk.CTkLabel(Erro, text="Tente novamente mais tarde!", text_color="white", font=("Arial", 14))
+    sub_label_erro.grid(row=2, column=1, pady=10, sticky="n")
+
+    Erro.mainloop()
+
 def api_verify():
+    """Verifica se a API esta online."""
+
     url = f"https://api.exchangerate.host/latest?access_key={API_KEY}"
     response = requests.get(url)
     
     if response.status_code == 200:
         logging.info('API-ON')
-        interface_grafica()  
+        return interface_grafica()  
+        
     else:
         logging.warning('API-OFF')
-        gui_erro() 
+        return gui_erro() 
 
 
-api_verify()
+api_verify() #chama verificação

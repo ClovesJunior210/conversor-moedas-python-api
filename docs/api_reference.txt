@@ -1,1 +1,24 @@
-api =  exchangerate.host
+## 🧑‍💻 API Reference
+
+A API usada para conversão de moedas é o [ExchangeRate.host](https://exchangerate.host/). A documentação completa da API pode ser acessada em [https://exchangerate.host/docs](https://exchangerate.host/docs).
+
+### Endpoints principais:
+
+- **Lista de moedas disponíveis**: 
+  - `GET /list` 
+  - Retorna uma lista de todas as moedas que podem ser usadas para conversão.
+  
+- **Conversão de moedas**:
+  - `GET /convert?from={from_currency}&to={to_currency}&amount={amount}`
+  - Converte um valor de uma moeda para outra.
+  
+---
+
+## ⚠️ Aviso
+
+- O programa verifica automaticamente se a API está online antes de abrir a interface principal.
+- Caso a API esteja offline, uma janela de erro será exibida.
+
+---
+
+Desenvolvido com ❤️ em Python.

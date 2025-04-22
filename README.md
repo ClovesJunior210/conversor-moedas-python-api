@@ -1,13 +1,77 @@
-# conversor moedas python api
+# 💱 Conversor de Moedas - v1.0
 
-projeto em python que realiza conversão entre moedas utilizando uma api gratuita. a interface gráfica é feita com tkinter e permite ao usuário inserir valores, escolher moedas e visualizar o resultado da conversão em tempo real.
+Um conversor de moedas com interface gráfica moderna usando `CustomTkinter` e a API gratuita [ExchangeRate.host](https://exchangerate.host/). Permite conversões em tempo real entre diferentes moedas com validações de entrada e interface intuitiva.
 
-## estrutura do projeto
+---
 
-- `main.py`: script principal com a interface gráfica e lógica da aplicação
-- `conversor.py`: função responsável por fazer requisições à api e retornar os valores convertidos
-- `requirements.txt`: dependências do projeto (opcional para ambientes virtuais)
+## 🚀 Funcionalidades
 
-## como executar
+- ✅ Interface gráfica com `CustomTkinter`
+- 🌎 Conversão entre diversas moedas internacionais
+- 🔍 Validação automática dos campos (valor e moedas)
+- 🧠 Verificação de disponibilidade da API antes de abrir a interface
+- 💬 Exibição de mensagens de erro e sucesso
 
-1. clone este repositório:
+---
+
+## 🛠️ Tecnologias e Bibliotecas
+
+- Python 3.8+
+- [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter)
+- `requests`
+- `python-dotenv` para gerenciar a chave da API
+
+---
+
+## 📦 Instalação
+
+### 1. Clone o repositório
+
+`git clone https://github.com/ClovesJunior210/conversor-moedas-python-api`
+
+Em seguida, entre na pasta do projeto:
+
+`cd conversor-moedas`
+
+### 2. Instale as dependências
+
+Execute o comando para instalar as bibliotecas necessárias:
+
+`pip install -r requirements.txt`
+
+### 3. Crie um arquivo `.env`
+
+Crie um arquivo `.env` na raiz do projeto com a seguinte linha:
+
+`API_KEY=sua_chave_da_api`
+
+> 🔑 A chave pode ser obtida gratuitamente em: [https://exchangerate.host](https://exchangerate.host)
+
+### 4. Execute o programa
+
+Para rodar o conversor de moedas, execute o seguinte comando:
+
+`python main.py`
+
+---
+
+## 🖼️ Captura de Tela
+
+![Interface do conversor GUI](assets/img_exemple.png)
+
+---
+
+## 📁 Estrutura do Projeto
+
+├──assets
+    └── img_exemple.png # Imagem exemplo
+├── docs
+    └── api_reference.txt     # Documentação da API usada
+├── src
+    └── main.py              # Código principal com lógica e interface
+├── .env                 # Chave da API 
+├── .gitignore           # Arquivos para o git ignorar 
+├── README.md            # Este arquivo
+├── requirements.txt     # Dependências do projeto
+
+---
