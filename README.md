@@ -63,6 +63,7 @@ Para rodar o conversor de moedas, execute o seguinte comando:
 
 ## 📁 Estrutura do Projeto
 
+```
 ├──assets
     └── img_exemple.png # Imagem exemplo
 ├── docs
@@ -73,5 +74,5 @@ Para rodar o conversor de moedas, execute o seguinte comando:
 ├── .gitignore           # Arquivos para o git ignorar 
 ├── README.md            # Este arquivo
 ├── requirements.txt     # Dependências do projeto
-
+```
 ---
